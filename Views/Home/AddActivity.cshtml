@@ -1,0 +1,53 @@
+@model Activity
+<div class="top">
+    <h1>Dojo Activity Center </h1>
+    <div class="side">
+        <a href="/success">Home</a>
+        <a id="side" href="/logout">Log Out</a>
+    </div>
+</div>
+<br>
+<div class="body">
+    <h2>Create an Activity</h2>
+    <br>
+    <form asp-action="AddTheActivity" asp-controller="Home" method="POST">
+        <div class="box1">
+            
+            <label asp-for="Name"></label><br>
+            <span asp-validation-for="Name"></span><br>
+            <input asp-for="Name"><br>
+
+            
+            <label asp-for="Time"></label><br>
+            <span asp-validation-for="Time"></span><br>
+            <input asp-for="Time" type="time"><br>
+
+           
+            <label asp-for="Date"></label><br>
+            <span asp-validation-for="Date"></span><br>
+            <input asp-for="Date" type ="date"><br>
+        </div>
+
+        <div class="box2">
+            
+            <label asp-for="DurationTime"></label><br>
+            <span asp-validation-for="DurationTime"></span><br>
+            <input asp-for="DurationTime"><br>
+            <select asp-for="DurationString">
+                <option value="Minutes">Minutes</option>
+                <option value="Hours">Hours</option>
+            </select><br>
+
+            <label asp-for="Description"></label><br>
+            <span asp-validation-for="Description"></span><br>
+            <input asp-for="Description" style="width: 350px; height:80px;"><br>
+        </div> 
+
+        <div class="box3">
+            <br>
+            <br>
+            <button type ="submit">Add Activity</button>
+        </div>
+    </form>
+
+</div>

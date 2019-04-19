@@ -1,0 +1,58 @@
+@model Activity
+@using Microsoft.AspNetCore.Http;
+<div class="top">
+    <h1>Dojo Activity Center </h1>
+    <div class="side">
+        <a href="/success">Home</a>
+        <a id="side" href="/logout">Log Out</a>
+    </div>
+</div>
+<br>
+<div class="body">
+   
+    <h2>@Model.Name</h2>
+    <br>
+    @{
+        int id =(int)@Context.Session.GetInt32("UserId");
+    }
+        @if(@Model.UserId == @id)
+        {
+            <a href="/delete/@Model.ActivityId"><button>Delete Activity</button></a>
+        }
+        else
+        {
+            bool g = false;
+            @foreach(var r in @Model.RSVPs)
+            {
+                if(r.UserId == id)
+                {
+                    g = true;
+                }
+            }
+            if(g)
+            {
+                <a href ="/unrsvp/@Model.ActivityId"><button>Un-Join</button></a>
+            }
+            if(!g)
+            {
+                <a href ="/rsvp/@Model.ActivityId"><button>Join</button></a>
+            }  
+           
+        }
+
+    <h3>Event Coordinator:@ViewBag.fname @ViewBag.lname </h3>
+    <h3>Description</h3>
+    <p>@Model.Description</p>
+    <h3>Participants:</h3>
+    @{
+        foreach(var g in @Model.RSVPs)
+        {
+            <h5>@g.User.FirstName</h5>
+        }
+    }
+
+   
+
+  
+</div>
+

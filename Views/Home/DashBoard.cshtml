@@ -1,0 +1,71 @@
+@model List<Activity>
+@using Microsoft.AspNetCore.Http;
+<div class="top">
+    <h1>Dojo Activity Center </h1>
+    <div class="side">
+        <h4>Welcome, @ViewBag.Fname </h4>
+        <a id="side" href="/logout">Log Out</a>
+    </div>
+</div>
+<br>
+<div class="body">
+<table class="table table-striped">
+<thead>
+    <tr>
+    <th scope="col">Activity</th>
+    <th scope="col">Date And Time</th>
+    <th scope="col">Duration</th>
+    <th scope="col">Event Coordinator</th>
+    <th scope="col">No. Of Participants</th>
+    <th scope="col">Actions</th>
+    </tr>
+</thead>
+<tbody>
+        @{
+            int id =(int)@Context.Session.GetInt32("UserId");
+            foreach(var a in Model)
+            {
+                @if(@a.Date.CompareTo(DateTime.Now)>0)
+                {
+                    <tr>
+                        <td><a href="/viewactivity/@a.ActivityId">@a.Name</a></td>
+                        <td>@a.Date.ToString("dd/MM/yyyy") at @a.Time</td>
+                        <td>@a.DurationTime @a.DurationString</td>
+                        <td>@a.User.FirstName</td>
+                        <td>@a.RSVPs.Count()</td>
+                   
+                        @if(@a.UserId == id)
+                        {
+                            <td><a href="/delete/@a.ActivityId">Delete</a></td>
+                        }
+                        else
+                        {
+                            bool g = false;
+                            foreach(var r in a.RSVPs)
+                            {
+                                if(r.UserId == id)
+                                {
+                                    g = true;
+                                }
+                            }
+                            if(g)
+                            {
+                                <td><a href ="/unrsvp/@a.ActivityId">Un-RSVP</a></td>
+                            }
+                            if(!g)
+                            {
+                                <td><a href ="/rsvp/@a.ActivityId">RSVP</a></td>
+                            }  
+                        } 
+                    </tr> 
+                }
+                
+            }
+           
+        }
+                        
+
+</tbody>
+</table>
+<br>
+<a href="/addactivity"><button>Add New Activity</button></a>
